@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+.body {
+  background-color: #1f1f1f;
+  padding: 10px;
+}
+
+.avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.flag {
+  width: 30px;
+  padding-right: 10px;
+}
+
+.elo {
+  width: 30px;
+}
+
+.level {
+  width: 35px;
+}
