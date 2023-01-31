@@ -2,6 +2,7 @@ import {Platforms} from "./platforms";
 import {Games} from "./games";
 import {Settings} from "./settings";
 import {Infractions} from "./infractions";
+import {PlayerStatistic} from "./player-statistic";
 
 export interface Player {
   player_id: string
@@ -21,4 +22,5 @@ export interface Player {
   membership_type: string
   cover_featured_image: string
   infractions: Infractions
+  statistic: PlayerStatistic
 }

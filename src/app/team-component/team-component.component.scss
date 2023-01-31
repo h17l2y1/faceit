@@ -1,0 +1,67 @@
+vega-card {
+  border: 1px solid #303030;
+  background-color: #1f1f1f;
+  color: white;
+  //padding: 12px;
+}
+
+.card-container {
+  color: rgba(255,255,255,0.6);
+  font-family: 'Roboto';
+
+  .card-header {
+    display: flex;
+    border-bottom: 1px solid #303030;
+    align-items: center;
+    justify-content: space-evenly;
+    padding-bottom: 12px;
+
+    .nickname-container {
+      display: flex;
+    }
+  }
+
+  .card-body {
+    display: flex;
+    //border-bottom: 1px solid #303030;
+    padding: 12px 0 12px 0;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+
+    .box {
+      padding: 5px;
+      border: 1px solid #303030;
+      width: 30%;
+      text-align: center;
+      font-size: 14px;
+      border-radius: 6px;
+    }
+    .last {
+      flex-grow: 1;
+    }
+  }
+}
+
+.winLose-container {
+  display: flex;
+  justify-content: center;
+
+  .winLose {
+    font-weight: bold;
+    padding-right: 5px;
+  }
+
+  .win {
+    color: #32d35a;
+  }
+
+  .lose {
+    color: #ff002b;
+  }
+}

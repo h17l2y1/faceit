@@ -14,16 +14,20 @@ export class FaceitService {
 
   constructor(private http: HttpClient) {}
 
-  public getPlayerData(id: string): Observable<Player> {
+  public getPlayer(id: string): Observable<Player> {
     return this.http.get<Player>(`${this.rootUrl}/players/${id}`);
   }
 
-  public getStatsCsgo(id: string): Observable<PlayerStatistic> {
+  public getPlayerStatistic(id: string): Observable<PlayerStatistic> {
     return this.http.get<PlayerStatistic>(`${this.rootUrl}/players/${id}/stats/csgo`);
   }
 
-  public getMatchData(id: string): Observable<Match> {
+  public getMatch(id: string): Observable<Match> {
     return this.http.get<Match>(`${this.rootUrl}/matches/${id}`);
   }
+
+  // public getMatchStatistic(id: string): Observable<Match> {
+  //   return this.http.get<Match>(`${this.rootUrl}/matches/${id}/stats`);
+  // }
 
 }
