@@ -1,0 +1,16 @@
+<div *ngIf="mapStatistics.length > 1">
+  <div *ngFor="let map of mapStatistics;" class="map-container">
+    <div class="map-percent" [class.percent-more]="moreOrLess(map)">{{map.leftWinRate}}%</div>
+    <div class="map-img-container">
+      <img src="{{map.img}}" alt="{{map.name}}">
+      <div class="centered">
+        <p>{{map.name}}</p>
+      </div>
+    </div>
+    <div class="map-percent" [class.percent-more]="moreOrLess(map)">
+      {{map.rightWinRate}}%
+    </div>
+  </div>
+</div>
+
+
