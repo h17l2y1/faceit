@@ -13,8 +13,9 @@ import {Match} from "./interfaces/match";
 export class AppComponent {
   title = 'faceit';
 
-  public player!: Player;
+  public player1!: Player;
   public playerStatistic!: PlayerStatistic;
+  public players$!: Observable<Player[]>
 
   private readonly myId = '9bbfed13-03da-41db-bf3b-b2db0d65ff98'
   private readonly matchId = '1-9b3063be-c126-47bf-a397-23cdfcebf134'
@@ -30,7 +31,7 @@ export class AppComponent {
 
     forkJoin([player, playerStatistic]).pipe(
       map(([playerResponse, playerStatisticResponse]) => {
-        this.player = playerResponse
+        this.player1 = playerResponse
         this.playerStatistic = playerStatisticResponse
       })
     ).subscribe()
@@ -47,18 +48,20 @@ export class AppComponent {
   public getMatchData(): void {
     this.faceitService.getMatchData(this.matchId).pipe(
       tap((response: Match) => {
-        const playersId: string[] = response.teams.faction1.roster.map(player => player.player_id);
-        const fullPlayersInfo = this.getAllPlayers(playersId);
+        const firstTeamPlayersId: string[] = response.teams.faction1.roster.map(player => player.player_id);
+        const secondTeamPlayersId: string[] = response.teams.faction2.roster.map(player => player.player_id);
+        const allIds = firstTeamPlayersId.concat(secondTeamPlayersId);
+        this.getAllPlayers(allIds);
       })
     ).subscribe();
   }
 
-  private getAllPlayers(ids: string[]): Player[] {
+  public getAllPlayers(ids: string[]): Player[] {
+    this.players$ = forkJoin(ids.map(id => this.faceitService.getPlayerData(id))).pipe(
+      tap(response => console.log(response))
+    );
 
     return [];
-    // const xxx = this.faceitService.getPlayerData(this.myId).pipe(
-    //   mergeMap(character => this.http.get(character.homeworld))
-    // );
   }
 
 }

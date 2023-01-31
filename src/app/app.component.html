@@ -1,80 +1,168 @@
-<vega-card *ngIf="player"
-           padding="size-24"
-           margin="size-8"
-           shadow="shadow-card"
-           background-color='bg-primary'>
+<div>
+  <div *ngFor="let player of players$ | async;" class="winLose">
+    <vega-card *ngIf="player"
+               padding="size-24"
+               margin="size-8"
+               shadow="shadow-card"
+               background-color='bg-primary'>
 
-  <div class="card-container">
-    <div class="card-header">
-      <img class="avatar" src="{{player.avatar}}" alt="cant load">
-      <div class="nickname-container">
-        <img src="assets/flags/ua.svg" alt="cant load" class="flag">
-        <div>{{player.nickname}}</div>
-      </div>
-      <img src="assets/icons/elo.svg" alt="cant load" class="elo">
-      <div>{{player.games.csgo.faceit_elo}}</div>
-      <img src="assets/icons/faceit{{player.games.csgo.skill_level}}.svg" alt="cant load" class="level">
-    </div>
+      <div class="card-container">
+        <div class="card-header">
+          <img class="avatar" src="{{player.avatar}}" alt="cant load">
+          <div class="nickname-container">
+            <img src="assets/flags/ua.svg" alt="cant load" class="flag">
+            <div>{{player.nickname}}</div>
+          </div>
+          <img src="assets/icons/elo.svg" alt="cant load" class="elo">
+          <div>{{player.games.csgo.faceit_elo}}</div>
+          <img src="assets/icons/faceit{{player.games.csgo.skill_level}}.svg" alt="cant load" class="level">
+        </div>
 
-    <div class="card-body">
-      <div>Overall for Last 20 Matches</div>
-    </div>
+        <div class="card-body">
+          <div>Overall for Last 20 Matches</div>
+        </div>
 
-    <div class="card-footer">
-      <div class="box">
-        <div>Matches</div>
-        <div>{{playerStatistic.lifetime.Matches}}</div>
-      </div>
-      <div class="box">
-        <div>Win rate</div>
-        <div>{{playerStatistic.lifetime["Win Rate %"]}}%</div>
-      </div>
-      <div class="box">
-        <div>Avg. Kills/HS</div>
-        <div> /{{playerStatistic.lifetime["Average Headshots %"]}}</div>
-      </div>
-      <div class="box">
-        <div>Avg. K/D K/R</div>
-        <div>{{playerStatistic.lifetime["Average K/D Ratio"]}}/</div>
-      </div>
-      <div class="box">
-        <div>Longest Win Streak</div>
-        <div>{{playerStatistic.lifetime["Longest Win Streak"]}}</div>
-      </div>
-      <div class="box">
-        <div>Current Win Streak</div>
-        <div>{{playerStatistic.lifetime["Current Win Streak"]}}</div>
-      </div>
-      <div class="box last">
-        <div>Last 5</div>
-        <div class="winLose-container">
-          <label *ngFor="let game of getLastFive();" class="winLose">
-            <label *ngIf="game === 'L'" class="lose">{{game}}</label>
-            <label *ngIf="game === 'W'" class="win">{{game}}</label>
-          </label>
+        <div class="card-footer">
+          <div class="box">
+            <div>Matches</div>
+            <div>{{playerStatistic.lifetime.Matches}}</div>
+          </div>
+          <div class="box">
+            <div>Win rate</div>
+            <div>{{playerStatistic.lifetime["Win Rate %"]}}%</div>
+          </div>
+          <div class="box">
+            <div>Avg. Kills/HS</div>
+            <div> /{{playerStatistic.lifetime["Average Headshots %"]}}</div>
+          </div>
+          <div class="box">
+            <div>Avg. K/D K/R</div>
+            <div>{{playerStatistic.lifetime["Average K/D Ratio"]}}/</div>
+          </div>
+          <div class="box">
+            <div>Longest Win Streak</div>
+            <div>{{playerStatistic.lifetime["Longest Win Streak"]}}</div>
+          </div>
+          <div class="box">
+            <div>Current Win Streak</div>
+            <div>{{playerStatistic.lifetime["Current Win Streak"]}}</div>
+          </div>
+          <div class="box last">
+            <div>Last 5</div>
+            <div class="winLose-container">
+              <label *ngFor="let game of getLastFive();" class="winLose">
+                <label *ngIf="game === 'L'" class="lose">{{game}}</label>
+                <label *ngIf="game === 'W'" class="win">{{game}}</label>
+              </label>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+
+
+      <!--  <p>Matches - {{playerStatistic.lifetime.Matches}}</p>-->
+      <!--  <p>Win rate - {{playerStatistic.lifetime["Win Rate %"]}}%</p>-->
+      <!--  <p>Avg. Kills/HS - /{{playerStatistic.lifetime["Average Headshots %"]}}</p>-->
+      <!--  <p>Avg. K/D K/R - {{playerStatistic.lifetime["Average K/D Ratio"]}}/</p>-->
+      <!--  <p>Longest Win Streak - {{playerStatistic.lifetime["Longest Win Streak"]}}</p>-->
+      <!--  <p>Current Win Streak - {{playerStatistic.lifetime["Current Win Streak"]}}</p>-->
+      <!--  <p>Wins - {{playerStatistic.lifetime.Wins}}</p>-->
+
+      <!--  <div>-->
+      <!--    Last 5-->
+      <!--    <div class="winLose-container">-->
+      <!--      <label *ngFor="let game of getLastFive();" class="winLose">-->
+      <!--        <label *ngIf="game === 'L'" class="lose">{{game}}</label>-->
+      <!--        <label *ngIf="game === 'W'" class="win">{{game}}</label>-->
+      <!--      </label>-->
+      <!--    </div>-->
+      <!--  </div>-->
+
+
+    </vega-card>
+
   </div>
+</div>
 
+<!--<vega-card *ngIf="player"-->
+<!--           padding="size-24"-->
+<!--           margin="size-8"-->
+<!--           shadow="shadow-card"-->
+<!--           background-color='bg-primary'>-->
 
-<!--  <p>Matches - {{playerStatistic.lifetime.Matches}}</p>-->
-<!--  <p>Win rate - {{playerStatistic.lifetime["Win Rate %"]}}%</p>-->
-<!--  <p>Avg. Kills/HS - /{{playerStatistic.lifetime["Average Headshots %"]}}</p>-->
-<!--  <p>Avg. K/D K/R - {{playerStatistic.lifetime["Average K/D Ratio"]}}/</p>-->
-<!--  <p>Longest Win Streak - {{playerStatistic.lifetime["Longest Win Streak"]}}</p>-->
-<!--  <p>Current Win Streak - {{playerStatistic.lifetime["Current Win Streak"]}}</p>-->
-<!--  <p>Wins - {{playerStatistic.lifetime.Wins}}</p>-->
+<!--  <div class="card-container">-->
+<!--    <div class="card-header">-->
+<!--      <img class="avatar" src="{{player.avatar}}" alt="cant load">-->
+<!--      <div class="nickname-container">-->
+<!--        <img src="assets/flags/ua.svg" alt="cant load" class="flag">-->
+<!--        <div>{{player.nickname}}</div>-->
+<!--      </div>-->
+<!--      <img src="assets/icons/elo.svg" alt="cant load" class="elo">-->
+<!--      <div>{{player.games.csgo.faceit_elo}}</div>-->
+<!--      <img src="assets/icons/faceit{{player.games.csgo.skill_level}}.svg" alt="cant load" class="level">-->
+<!--    </div>-->
 
-<!--  <div>-->
-<!--    Last 5-->
-<!--    <div class="winLose-container">-->
-<!--      <label *ngFor="let game of getLastFive();" class="winLose">-->
-<!--        <label *ngIf="game === 'L'" class="lose">{{game}}</label>-->
-<!--        <label *ngIf="game === 'W'" class="win">{{game}}</label>-->
-<!--      </label>-->
+<!--    <div class="card-body">-->
+<!--      <div>Overall for Last 20 Matches</div>-->
+<!--    </div>-->
+
+<!--    <div class="card-footer">-->
+<!--      <div class="box">-->
+<!--        <div>Matches</div>-->
+<!--        <div>{{playerStatistic.lifetime.Matches}}</div>-->
+<!--      </div>-->
+<!--      <div class="box">-->
+<!--        <div>Win rate</div>-->
+<!--        <div>{{playerStatistic.lifetime["Win Rate %"]}}%</div>-->
+<!--      </div>-->
+<!--      <div class="box">-->
+<!--        <div>Avg. Kills/HS</div>-->
+<!--        <div> /{{playerStatistic.lifetime["Average Headshots %"]}}</div>-->
+<!--      </div>-->
+<!--      <div class="box">-->
+<!--        <div>Avg. K/D K/R</div>-->
+<!--        <div>{{playerStatistic.lifetime["Average K/D Ratio"]}}/</div>-->
+<!--      </div>-->
+<!--      <div class="box">-->
+<!--        <div>Longest Win Streak</div>-->
+<!--        <div>{{playerStatistic.lifetime["Longest Win Streak"]}}</div>-->
+<!--      </div>-->
+<!--      <div class="box">-->
+<!--        <div>Current Win Streak</div>-->
+<!--        <div>{{playerStatistic.lifetime["Current Win Streak"]}}</div>-->
+<!--      </div>-->
+<!--      <div class="box last">-->
+<!--        <div>Last 5</div>-->
+<!--        <div class="winLose-container">-->
+<!--          <label *ngFor="let game of getLastFive();" class="winLose">-->
+<!--            <label *ngIf="game === 'L'" class="lose">{{game}}</label>-->
+<!--            <label *ngIf="game === 'W'" class="win">{{game}}</label>-->
+<!--          </label>-->
+<!--        </div>-->
+<!--      </div>-->
 <!--    </div>-->
 <!--  </div>-->
 
 
-</vega-card>
+<!--&lt;!&ndash;  <p>Matches - {{playerStatistic.lifetime.Matches}}</p>&ndash;&gt;-->
+<!--&lt;!&ndash;  <p>Win rate - {{playerStatistic.lifetime["Win Rate %"]}}%</p>&ndash;&gt;-->
+<!--&lt;!&ndash;  <p>Avg. Kills/HS - /{{playerStatistic.lifetime["Average Headshots %"]}}</p>&ndash;&gt;-->
+<!--&lt;!&ndash;  <p>Avg. K/D K/R - {{playerStatistic.lifetime["Average K/D Ratio"]}}/</p>&ndash;&gt;-->
+<!--&lt;!&ndash;  <p>Longest Win Streak - {{playerStatistic.lifetime["Longest Win Streak"]}}</p>&ndash;&gt;-->
+<!--&lt;!&ndash;  <p>Current Win Streak - {{playerStatistic.lifetime["Current Win Streak"]}}</p>&ndash;&gt;-->
+<!--&lt;!&ndash;  <p>Wins - {{playerStatistic.lifetime.Wins}}</p>&ndash;&gt;-->
+
+<!--&lt;!&ndash;  <div>&ndash;&gt;-->
+<!--&lt;!&ndash;    Last 5&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="winLose-container">&ndash;&gt;-->
+<!--&lt;!&ndash;      <label *ngFor="let game of getLastFive();" class="winLose">&ndash;&gt;-->
+<!--&lt;!&ndash;        <label *ngIf="game === 'L'" class="lose">{{game}}</label>&ndash;&gt;-->
+<!--&lt;!&ndash;        <label *ngIf="game === 'W'" class="win">{{game}}</label>&ndash;&gt;-->
+<!--&lt;!&ndash;      </label>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;  </div>&ndash;&gt;-->
+
+
+<!--</vega-card>-->
+
+<!--{{players$ | async}}-->
