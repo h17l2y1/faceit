@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {FaceitService} from "./services/faceit.service";
-import {forkJoin, map, Observable, tap} from "rxjs";
+import {forkJoin, map, Observable, switchMap, tap} from "rxjs";
 import {PlayerStatistic} from "./interfaces/player-statistic";
 import {Player} from "./interfaces/player";
 import {Match} from "./interfaces/match";
@@ -56,17 +56,14 @@ export class AppComponent {
   }
 
   public getAllPlayers(ids: string[]): Observable<Player[]> {
-    // this.players$ = forkJoin(ids.map(id => this.faceitService.getPlayer(id))).pipe(
-    //   tap(response => console.log(response)),
-    // );
-
     return forkJoin(ids.map(id => this.faceitService.getPlayer(id).pipe(
-      tap((player: Player) => {
-        this.faceitService.getPlayerStatistic(player.player_id).pipe(
-          tap((statistic: PlayerStatistic) => {
+      switchMap(player => {
+        return this.faceitService.getPlayerStatistic(player.player_id).pipe(
+          map((statistic: PlayerStatistic) => {
             player.statistic = statistic;
+            return player;
           })
-        ).subscribe();
+        );
       })
     )))
   }

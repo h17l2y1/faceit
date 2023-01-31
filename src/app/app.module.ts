@@ -6,11 +6,13 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthInterceptor} from "./services/auth-interceptor.service";
 import {VegaComponentModule} from "@heartlandone/vega-angular";
 import { TeamComponentComponent } from './team-component/team-component.component';
+import { MapComparingComponent } from './map-comparing/map-comparing.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TeamComponentComponent
+    TeamComponentComponent,
+    MapComparingComponent
   ],
   imports: [
     VegaComponentModule,
