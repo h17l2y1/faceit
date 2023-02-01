@@ -1,5 +1,21 @@
 @import 'src/variables';
 
+.team-container {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.glue-to-left {
+  align-items: flex-start;
+}
+
+.glue-to-right {
+  align-items: flex-end;
+}
+
+
+
 :host ::ng-deep vega-input {
   .vega-input-container {
     background-color: $input-color;

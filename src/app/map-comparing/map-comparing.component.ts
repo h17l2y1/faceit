@@ -1,62 +1,67 @@
 import {Component, Input} from '@angular/core';
-import {Player} from "../interfaces/player";
-import {csgoMaps} from "../constants/maps";
-import {MapStatistic} from "../interfaces/custom/map-statistic";
 import {Observable, tap} from "rxjs";
+import {CsgoMapWithStatistic, PlayerWithStatistic} from "../interfaces/custom/view-player";
+import {ComparedMap} from "../interfaces/custom/compared-map";
+import {csgoDefaultMapList} from "../constants/maps";
 
 @Component({
   selector: 'map-comparing',
   templateUrl: './map-comparing.component.html',
   styleUrls: ['./map-comparing.component.scss']
 })
+
+
 export class MapComparingComponent {
-  @Input() set playersLeft(players$: Observable<Player[]>) {
+  @Input() set playersLeft(players$: Observable<PlayerWithStatistic[]>) {
     if (players$) this.mapStatLeft(players$);
   }
 
-  @Input() set playersRight(players$: Observable<Player[]>) {
+  @Input() set playersRight(players$: Observable<PlayerWithStatistic[]>) {
     if (players$) this.mapStatRight(players$);
   }
 
-  public mapStatistics: MapStatistic[] = csgoMaps;
+  public comparedMaps: ComparedMap[] = csgoDefaultMapList.map(csgoMap => ({...csgoMap, leftWinRate: 0, rightWinRate: 0}));
 
-  private mapStatLeft(players: Observable<Player[]>) {
+
+  private mapStatLeft(players: Observable<PlayerWithStatistic[]>) {
     players.pipe(
-      tap((players: Player[]) => {
+      tap((players: PlayerWithStatistic[]) => {
         players.forEach(player => {
-          player.statistic?.segments.forEach(segment => {
-            const map = this.mapStatistics.find(map => map.label === segment.label);
-            if (!map) return
 
-            const winRate = Number(segment.stats["Win Rate %"]);
-            map.img = segment.img_regular;
-            map.leftWinRate += winRate;
+          player.statistic.maps.forEach((csgoMap: CsgoMapWithStatistic) => {
+            const comparedMap = this.comparedMaps.find(item => item.label === csgoMap.label);
+            if (!comparedMap) return;
+
+            const winRate = Number(csgoMap.mapStatistic.winRatePercent);
+            comparedMap.leftWinRate += winRate;
 
           })
         })
-        this.mapStatistics.forEach(map => {
+
+        this.comparedMaps.forEach(map => {
           map.leftWinRate = Math.round(map.leftWinRate / 5);
         })
       })
     ).subscribe()
   }
 
-  private mapStatRight(players: Observable<Player[]>) {
+  private mapStatRight(players: Observable<PlayerWithStatistic[]>) {
     players.pipe(
-      tap((players: Player[]) => {
+      tap((players: PlayerWithStatistic[]) => {
         players.forEach(player => {
-          player.statistic?.segments.forEach(segment => {
-            const map = this.mapStatistics.find(map => map.label === segment.label);
-            if (!map) return
 
-            const winRate = Number(segment.stats["Win Rate %"]);
-            map.img = segment.img_regular;
-            map.rightWinRate += winRate;
+          player.statistic.maps.forEach((csgoMap: CsgoMapWithStatistic) => {
+            const comparedMap = this.comparedMaps.find(item => item.label === csgoMap.label);
+            if (!comparedMap) return;
+
+            const winRate = Number(csgoMap.mapStatistic.winRatePercent);
+            comparedMap.rightWinRate += winRate;
 
           })
         })
-        this.mapStatistics.forEach(map => {
-          map.rightWinRate = Math.round(map.rightWinRate / 5);
+
+        this.comparedMaps.forEach(map => {
+          map.rightWinRate = Math.round(map.leftWinRate / 5);
         })
       })
     ).subscribe()

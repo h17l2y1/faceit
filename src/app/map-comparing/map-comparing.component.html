@@ -1,5 +1,5 @@
-<div *ngIf="mapStatistics.length > 1">
-  <div *ngFor="let map of mapStatistics;" class="map-container">
+<div *ngIf="comparedMaps.length > 1">
+  <div *ngFor="let map of comparedMaps;" class="map-container">
     <p class="map-percent" [class.percent-more]="map.leftWinRate > map.rightWinRate">{{map.leftWinRate}}%</p>
     <div class="map-img-container">
       <img src="{{map.img}}" alt="{{map.name}}">

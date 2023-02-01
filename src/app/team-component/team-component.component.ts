@@ -1,7 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Observable} from "rxjs";
-import {Player} from "../interfaces/player";
-import {PlayerStatistic} from "../interfaces/player-statistic";
+import {PlayerWithStatistic, ProfileStatistic} from "../interfaces/custom/view-player";
 
 @Component({
   selector: 'team-component',
@@ -9,13 +8,17 @@ import {PlayerStatistic} from "../interfaces/player-statistic";
   styleUrls: ['./team-component.component.scss']
 })
 export class TeamComponentComponent {
-  @Input() players$!: Observable<Player[]>;
+  @Input() set players$(players: Observable<PlayerWithStatistic[]>) {
+    if (players){
+      this.allPlayers$ = players
+    }
+  }
 
-  public getLastFive(playerStatistic: PlayerStatistic): string[] {
-    return playerStatistic.lifetime["Recent Results"]
-      .map(item => {
-        return item === '1' ? 'W' : 'L'
-      });
+  public allPlayers$!: Observable<PlayerWithStatistic[]>;
+
+
+  public getLastFive(statistic: ProfileStatistic): string[] {
+    return statistic.recentResults.map(item => item === '1' ? 'W' : 'L');
   }
 
 }

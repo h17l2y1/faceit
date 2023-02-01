@@ -1,51 +1,63 @@
+@import 'src/variables';
+
 vega-card {
-  border: 1px solid #303030;
-  background-color: #1f1f1f;
+  border: 1px solid $border-color;
+  background-color: $background-color;
   color: white;
   padding: 0;
+  margin-bottom: 8px;
+  width: 500px;
+  font-family: 'Roboto';
+  font-size: 14px;
 }
 
-.card-container {
-  color: rgba(255,255,255,0.6);
-  font-family: 'Roboto';
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 5px 0;
+  max-height: 56px;
+  color: white;
 
-  .card-header {
+  .flag-nickname-container {
     display: flex;
-    border-bottom: 1px solid #303030;
-    align-items: center;
-    justify-content: space-evenly;
-    padding: 5px 0;
+    flex-direction: column;
 
-    .nickname-container {
+    .nick-container {
       display: flex;
+
+      .faceit-nick {
+        font-weight: bold;
+
+        .capitan {
+          color: white;
+          width: 10px;
+        }
+      }
+    }
+
+    .steam-nick {
+      font-size: 13px;
+      color: $font-secondary;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: 150px;
     }
   }
+}
 
-  .card-body {
-    display: flex;
-    //border-bottom: 1px solid #303030;
-    padding: 3px 0;
-    justify-content: center;
-    font-size: 14px;
-  }
+.box {
+  text-align: center;
+  border: 1px solid $border-color;
+  padding: 5px 0;
+  color: $font-secondary;
+}
 
-  .card-footer {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-
-    .box {
-      padding: 5px;
-      border: 1px solid #303030;
-      width: 30%;
-      text-align: center;
-      font-size: 14px;
-      border-radius: 6px;
-    }
-    .last {
-      flex-grow: 1;
-    }
-  }
+.box-end {
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
 }
 
 .winLose-container {
