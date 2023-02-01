@@ -1,0 +1,21 @@
+@import 'src/variables';
+
+:host ::ng-deep vega-input {
+  .vega-input-container {
+    background-color: $input-color;
+    border-color: $input-color;
+  }
+
+  .vega-input-container:hover {
+    border-color: $faceit-orange;
+  }
+
+  .vega-input-container:focus-within {
+    box-shadow: 0 0 0 1px $faceit-orange;
+  }
+
+  input {
+    background-color: $input-color;
+    color: #999B9D;
+  }
+}

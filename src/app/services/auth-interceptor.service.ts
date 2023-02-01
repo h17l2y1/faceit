@@ -28,8 +28,12 @@ export class AuthInterceptor implements HttpInterceptor {
         },
         (err) => {
           if (err instanceof HttpErrorResponse) {
-            if (err.status == 401)
+            if (err.status == 401){
               console.log('Unauthorized')
+            }
+            if (err.status == 404){
+              console.log('cant find this on faceit')
+            }
           }
         }
       )

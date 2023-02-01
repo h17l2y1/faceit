@@ -1,42 +1,51 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {FaceitService} from "./services/faceit.service";
-import {forkJoin, map, Observable, switchMap, tap} from "rxjs";
+import {forkJoin, map, Observable, Subject, switchMap, takeUntil, tap} from "rxjs";
 import {PlayerStatistic} from "./interfaces/player-statistic";
 import {Player} from "./interfaces/player";
 import {Match} from "./interfaces/match";
 import {FormBuilder, FormControl} from "@angular/forms";
+import {matchId1} from "./constants/for-development";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy{
   title = 'faceit';
 
-  public playerStatistic!: PlayerStatistic;
-  public players1$!: Observable<Player[]>
-  public players2$!: Observable<Player[]>
+  private destroyed$: Subject<void> = new Subject<void>();
 
-  public players1!: Player[]
-  public players2!: Player[]
+  public playerStatistic!: PlayerStatistic;
+  public playersLeft$!: Observable<Player[]>
+  public playersRight$!: Observable<Player[]>
+
+  // public playersLeft!: Player[]
+  // public playersRight!: Player[]
 
   public matchIdControl: FormControl = this.formBuilder.control(null);
 
   public matchIdControlChange$: Observable<any> =
     this.matchIdControl.valueChanges.pipe(
-      // takeUntil(this.destroyed$),
-      tap(() => this.getMatchData(this.matchId))
+      takeUntil(this.destroyed$),
+      tap((faceitLink: string) => {
+        const id = faceitLink.replace('https://www.faceit.com/en/csgo/room/', '').replace('/scoreboard', '');
+        // this.playersLeft = [];
+        // this.playersRight = [];
+        this.getMatchData(id);
+      })
     );
-
-  // private readonly myId = '9bbfed13-03da-41db-bf3b-b2db0d65ff98'
-  private readonly matchId = '1-3bc96dca-2f49-4bb9-b16a-386ff5b9065b'
-  private readonly matchId2 = '1-7c936bbb-c270-4459-ae38-f15201c38e0f'
 
   constructor(private readonly formBuilder: FormBuilder,
     private readonly faceitService: FaceitService) {
-    // this.getMatchData(this.matchId);
+    this.getMatchData(matchId1);
     this.matchIdControlChange$.subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   public getLastFive(playerStatistic: PlayerStatistic): string[] {
@@ -51,11 +60,11 @@ export class AppComponent {
       tap((response: Match) => {
         const firstTeamPlayersId: string[] = response.teams.faction1.roster.map(player => player.player_id);
         const secondTeamPlayersId: string[] = response.teams.faction2.roster.map(player => player.player_id);
-        this.players1$ = this.getAllPlayers(firstTeamPlayersId).pipe(
-          tap((players: Player[]) => this.players1 = players)
+        this.playersLeft$ = this.getAllPlayers(firstTeamPlayersId).pipe(
+          // tap((players: Player[]) => this.playersLeft = players)
         );
-        this.players2$ = this.getAllPlayers(secondTeamPlayersId).pipe(
-          tap((players: Player[]) => this.players2 = players)
+        this.playersRight$ = this.getAllPlayers(secondTeamPlayersId).pipe(
+          // tap((players: Player[]) => this.playersRight = players)
         );
       })
     ).subscribe();

@@ -5,26 +5,25 @@
   <div style="grid-column: 1 /  span 3;">
     <vega-input
       [formControl]="matchIdControl"
-      label="Phone number"
-      placeholder="Paste match id from lobby"
-      prefix-icon="mobile-phone"
-      max-length="38"
+      placeholder="Paste link on faceit room"
+      prefix-icon="search"
+      max-length="150"
       show-clear-icon="true">
     </vega-input>
 
   </div>
 
   <div style="grid-row: span 4;">
-    <team-component [players$]="players1$"></team-component>
+    <team-component [players$]="playersLeft$"></team-component>
   </div>
   <div>
-    <map-comparing *ngIf="players1 && players2"
-      [playersLeft]="players1"
-      [playersRight]="players2">
+    <map-comparing
+      [playersLeft]="playersLeft$"
+      [playersRight]="playersRight$">
     </map-comparing>
   </div>
   <div style="grid-row: span 4;">
-    <team-component [players$]="players2$"></team-component>
+    <team-component [players$]="playersRight$"></team-component>
   </div>
 <!--  <div style="grid-column: 2">Child Item 4</div>-->
 <!--  <div style="grid-column: 2">Child Item 5</div>-->
