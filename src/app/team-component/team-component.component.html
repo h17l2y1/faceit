@@ -1,9 +1,7 @@
-<div *ngFor="let player of players$ | async;" class="winLose">
+<div *ngFor="let player of players$ | async;">
   <vega-card *ngIf="player"
              padding="size-24"
-             margin="size-8"
-             shadow="shadow-card"
-             background-color='bg-primary'>
+             margin="size-8">
 
     <div class="card-container">
       <div class="card-header">
@@ -46,15 +44,15 @@
           <div>Current Win Streak</div>
           <div>{{player.statistic.lifetime["Current Win Streak"]}}</div>
         </div>
-        <div class="box last">
-          <div>Last 5</div>
-          <div class="winLose-container">
-            <label *ngFor="let game of getLastFive(player.statistic);" class="winLose">
-              <label *ngIf="game === 'L'" class="lose">{{game}}</label>
-              <label *ngIf="game === 'W'" class="win">{{game}}</label>
-            </label>
-          </div>
-        </div>
+<!--        <div class="box last">-->
+<!--          <div>Last 5</div>-->
+<!--          <div class="winLose-container">-->
+<!--            <label *ngFor="let game of getLastFive(player.statistic);" class="winLose">-->
+<!--              <label *ngIf="game === 'L'" class="lose">{{game}}</label>-->
+<!--              <label *ngIf="game === 'W'" class="win">{{game}}</label>-->
+<!--            </label>-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
     </div>
   </vega-card>

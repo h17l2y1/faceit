@@ -1,5 +1,5 @@
 .map-container{
-  border: 1px solid red;
+  //border: 1px solid red;
   display: flex;
   align-items: center;
   font-family: 'Roboto';
@@ -32,12 +32,14 @@
   .map-percent {
     width: 20%;
     text-align: center;
-    font-size: 16pt;
+    font-size: 24px;
+    font-weight: 300;
     color: white;
   }
 
   .percent-more {
-    font-weight: bold;
+    font-weight: 900;
+    //color: red;
   }
 
   .percent-less {

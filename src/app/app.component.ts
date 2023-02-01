@@ -4,6 +4,7 @@ import {forkJoin, map, Observable, switchMap, tap} from "rxjs";
 import {PlayerStatistic} from "./interfaces/player-statistic";
 import {Player} from "./interfaces/player";
 import {Match} from "./interfaces/match";
+import {FormBuilder, FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -20,11 +21,22 @@ export class AppComponent {
   public players1!: Player[]
   public players2!: Player[]
 
-  // private readonly myId = '9bbfed13-03da-41db-bf3b-b2db0d65ff98'
-  private readonly matchId = '1-9b3063be-c126-47bf-a397-23cdfcebf134'
+  public matchIdControl: FormControl = this.formBuilder.control(null);
 
-  constructor(private readonly faceitService: FaceitService) {
-    this.getMatchData(this.matchId);
+  public matchIdControlChange$: Observable<any> =
+    this.matchIdControl.valueChanges.pipe(
+      // takeUntil(this.destroyed$),
+      tap(() => this.getMatchData(this.matchId))
+    );
+
+  // private readonly myId = '9bbfed13-03da-41db-bf3b-b2db0d65ff98'
+  private readonly matchId = '1-3bc96dca-2f49-4bb9-b16a-386ff5b9065b'
+  private readonly matchId2 = '1-7c936bbb-c270-4459-ae38-f15201c38e0f'
+
+  constructor(private readonly formBuilder: FormBuilder,
+    private readonly faceitService: FaceitService) {
+    // this.getMatchData(this.matchId);
+    this.matchIdControlChange$.subscribe();
   }
 
   public getLastFive(playerStatistic: PlayerStatistic): string[] {
