@@ -8,6 +8,7 @@ import {
   HttpResponse
 } from "@angular/common/http";
 import {Observable, tap} from "rxjs";
+import {authToken, serverToken} from "../constants/for-development";
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,15 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+
+    // let token = req.url.includes('/v1/') ? authToken : serverToken;
+    //
+    // token = serverToken;
+
     const authReq = req.clone({
-      headers: req.headers.set('Authorization', 'Bearer c6058ee7-9293-49f8-ad7b-e29f9a80da11'),
+      // headers: req.headers
+        // .set('Authorization', `Bearer ${token}`)
+        // .set('Content-Type', 'application/json'),
     })
 
     return next.handle(authReq).pipe(

@@ -28,7 +28,7 @@ export class MapComparingComponent {
       tap((players: PlayerWithStatistic[]) => {
         players.forEach(player => {
 
-          player.statistic.maps.forEach((csgoMap: CsgoMapWithStatistic) => {
+          player.globalStatistic.maps.forEach((csgoMap: CsgoMapWithStatistic) => {
             const comparedMap = this.comparedMaps.find(item => item.label === csgoMap.label);
             if (!comparedMap) return;
 
@@ -50,7 +50,7 @@ export class MapComparingComponent {
       tap((players: PlayerWithStatistic[]) => {
         players.forEach(player => {
 
-          player.statistic.maps.forEach((csgoMap: CsgoMapWithStatistic) => {
+          player.globalStatistic.maps.forEach((csgoMap: CsgoMapWithStatistic) => {
             const comparedMap = this.comparedMaps.find(item => item.label === csgoMap.label);
             if (!comparedMap) return;
 

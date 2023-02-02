@@ -8,6 +8,7 @@ import {TeamComponentComponent} from './team-component/team-component.component'
 import {MapComparingComponent} from './map-comparing/map-comparing.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {MapperService} from "./services/mapper.service";
+import {FaceitService} from "./services/faceit.service";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {MapperService} from "./services/mapper.service";
       useClass: AuthInterceptor,
       multi: true,
     },
-    MapperService
+    MapperService,
+    FaceitService
   ],
   bootstrap: [AppComponent]
 })

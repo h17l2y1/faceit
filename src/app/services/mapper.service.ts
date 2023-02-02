@@ -26,7 +26,7 @@ export class MapperService {
         friendsIds: player.friends_ids,
         faceitUrl: player.faceit_url,
       },
-      statistic: {
+      globalStatistic: {
         winRatePercent: statistic.lifetime["Win Rate %"],
         longestWinStreak: statistic.lifetime["Longest Win Streak"],
         wins: statistic.lifetime.Wins,

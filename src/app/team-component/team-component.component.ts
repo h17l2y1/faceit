@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Observable} from "rxjs";
-import {PlayerWithStatistic, ProfileStatistic} from "../interfaces/custom/view-player";
+import {PlayerWithStatistic, GlobalStatistic} from "../interfaces/custom/view-player";
 
 @Component({
   selector: 'team-component',
@@ -17,7 +17,7 @@ export class TeamComponentComponent {
   public allPlayers$!: Observable<PlayerWithStatistic[]>;
 
 
-  public getLastFive(statistic: ProfileStatistic): string[] {
+  public getLastFive(statistic: GlobalStatistic): string[] {
     return statistic.recentResults.map(item => item === '1' ? 'W' : 'L');
   }
 

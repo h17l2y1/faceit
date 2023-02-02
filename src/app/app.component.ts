@@ -1,11 +1,11 @@
 import {Component, OnDestroy} from '@angular/core';
 import {FaceitService} from "./services/faceit.service";
-import {forkJoin, map, Observable, Subject, switchMap, takeUntil, tap} from "rxjs";
+import {forkJoin, map, mergeMap, Observable, startWith, Subject, switchMap, takeUntil, tap} from "rxjs";
 import {PlayerStatistic} from "./interfaces/player-statistic";
 import {Player} from "./interfaces/player";
 import {Match} from "./interfaces/match";
 import {FormBuilder, FormControl} from "@angular/forms";
-import {matchId1} from "./constants/for-development";
+import {matchId1, myId} from "./constants/for-development";
 import {MapperService} from "./services/mapper.service";
 import {PlayerWithStatistic} from "./interfaces/custom/view-player";
 
@@ -20,11 +20,9 @@ export class AppComponent implements OnDestroy{
   private destroyed$: Subject<void> = new Subject<void>();
 
   public playerStatistic!: PlayerStatistic;
-  // public playersLeft$!: Observable<Player[]>
-  // public playersRight$!: Observable<Player[]>
 
-  public playersLeft2$!: Observable<PlayerWithStatistic[]>
-  public playersRight2$!: Observable<PlayerWithStatistic[]>
+  public playersLeft$!: Observable<PlayerWithStatistic[]>
+  public playersRight$!: Observable<PlayerWithStatistic[]>
 
   public matchIdControl: FormControl = this.formBuilder.control(null);
 
@@ -43,6 +41,8 @@ export class AppComponent implements OnDestroy{
     private readonly faceitService: FaceitService) {
     this.getMatchData(matchId1);
     this.matchIdControlChange$.subscribe();
+
+    this.getPlayersWithStatistic2();
   }
 
   ngOnDestroy(): void {
@@ -58,33 +58,17 @@ export class AppComponent implements OnDestroy{
   }
 
   public getMatchData(id: string): void {
-    this.faceitService.getMatch(id).pipe(
-      tap((response: Match) => {
-        const firstTeamPlayersId: string[] = response.teams.faction1.roster.map(player => player.player_id);
-        const secondTeamPlayersId: string[] = response.teams.faction2.roster.map(player => player.player_id);
-        // this.playersLeft$ = this.getPlayersWithStatistic(firstTeamPlayersId);
-        // this.playersRight$ = this.getPlayersWithStatistic(secondTeamPlayersId);
-
-        this.playersLeft2$ = this.getPlayersWithStatistic2(firstTeamPlayersId);
-        this.playersRight2$ = this.getPlayersWithStatistic2(secondTeamPlayersId);
-      })
-    ).subscribe();
+    // this.faceitService.getMatch(id).pipe(
+    //   tap((response: Match) => {
+    //     const firstTeamPlayersId: string[] = response.teams.faction1.roster.map(player => player.player_id);
+    //     const secondTeamPlayersId: string[] = response.teams.faction2.roster.map(player => player.player_id);
+    //     this.playersLeft$ = this.getPlayersWithStatistic(firstTeamPlayersId);
+    //     this.playersRight$ = this.getPlayersWithStatistic(secondTeamPlayersId);
+    //   })
+    // ).subscribe();
   }
 
-  // public getPlayersWithStatistic(ids: string[]): Observable<Player[]> {
-  //   return forkJoin(ids.map(id => this.faceitService.getPlayer(id).pipe(
-  //     switchMap(player => {
-  //       return this.faceitService.getPlayerStatistic(player.player_id).pipe(
-  //         map((statistic: PlayerStatistic) => {
-  //           player.statistic = statistic;
-  //           return player;
-  //         })
-  //       );
-  //     })
-  //   )))
-  // }
-
-  public getPlayersWithStatistic2(ids: string[]): Observable<PlayerWithStatistic[]> {
+  public getPlayersWithStatistic(ids: string[]): Observable<PlayerWithStatistic[]> {
     return forkJoin(ids.map(id => this.faceitService.getPlayer(id).pipe(
       switchMap((player: Player) => {
         return this.faceitService.getPlayerStatistic(player.player_id).pipe(
@@ -95,5 +79,36 @@ export class AppComponent implements OnDestroy{
       })
     )))
   }
+
+
+
+  public getPlayersWithStatistic2(ids?: string[]) {
+
+    this.faceitService.getLast20Matches(myId).subscribe(res => {
+      console.log(res);
+    });
+
+    // this.faceitService.getMatch(matchId1).pipe(
+    //   switchMap(match => match.teams.faction1.roster),
+    //   mergeMap(roster => {
+    //
+    //     const player = this.faceitService.getPlayer(roster.player_id)
+    //     const globalStatistic = this.faceitService.getPlayerStatistic(roster.player_id)
+    //     const last20 = this.faceitService.getLast20Matches(roster.player_id)
+    //
+    //     return forkJoin([player, globalStatistic, last20]).pipe(
+    //       map(([player, globalStatistic, last20]) => {
+    //         return  {
+    //           globalStatistic: globalStatistic,
+    //           last20Matches: last20,
+    //           profile: player, id: roster.player_id
+    //         }
+    //       })
+    //     )
+    //   })
+    // ).subscribe(x => console.log(x))
+
+  }
+
 
 }

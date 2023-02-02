@@ -1,7 +1,8 @@
 export interface PlayerWithStatistic {
   id: string;
   profile: PlayerData
-  statistic: ProfileStatistic
+  globalStatistic: GlobalStatistic
+  // last20Matches: any[]
 }
 
 export interface PlayerData {
@@ -18,7 +19,7 @@ export interface PlayerData {
   faceitUrl: string;
 }
 
-export interface ProfileStatistic {
+export interface GlobalStatistic {
   winRatePercent : string;
   longestWinStreak: string;
   wins: string;
