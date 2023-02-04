@@ -1,8 +1,16 @@
+import {Round} from "../match-statistic";
+import {PlayerProfile} from "../player-profile";
+
+export interface PlayerWithStatistic2 {
+  matchesStatistics: Round[]
+  playerProfile: PlayerProfile
+}
+
 export interface PlayerWithStatistic {
   id: string;
-  profile: PlayerData
-  globalStatistic: GlobalStatistic
-  // last20Matches: any[]
+  profile: PlayerData;
+  globalStatistic: GlobalStatistic;
+  lastStatistic: MapStatistic2[];
 }
 
 export interface PlayerData {
@@ -68,4 +76,43 @@ export interface MapStatistic {
   kills: string;
   mVPs: string;
   averageKDRatio: string;
+}
+
+export interface MapStatistic2 {
+  kRRatio: number;
+  kDRatio: number;
+  assists: number;
+  pentaKills: number;
+  headshotsPercent: number;
+  tripleKills: number;
+  quadroKills: number;
+  deaths: number;
+  winRatePercent: number;
+  kills: number;
+  mVPs: number;
+  headshots: number;
+  winRate: number;
+  matchesHistory: LastMatch[];
+}
+
+export interface LastMatch {
+  mapLabel: string;
+  isWin?: boolean;
+  mapScore: string;
+  playerScore?: PlayerStatistic2;
+}
+
+export interface PlayerStatistic2 {
+  kRRatio: number;
+  kDRatio: number;
+  assists: number;
+  pentaKills: number;
+  headshotsPercent: number;
+  tripleKills: number;
+  quadroKills: number;
+  deaths: number;
+  result: number;
+  kills: number;
+  mVPs: number;
+  headshots: number;
 }

@@ -1,3 +1,32 @@
+export interface PlayerGlobalStatistic {
+  player_id: string
+  game_id: string
+  lifetime: Lifetime
+  segments: Segment[]
+}
+
+export interface Lifetime {
+  Matches: string
+  "Average K/D Ratio": string
+  "Recent Results": string[]
+  "Win Rate %": string
+  Wins: string
+  "K/D Ratio": string
+  "Average Headshots %": string
+  "Total Headshots %": string
+  "Current Win Streak": string
+  "Longest Win Streak": string
+}
+
+export interface Segment {
+  type: string
+  mode: string
+  label: string
+  img_small: string
+  img_regular: string
+  stats: Stats
+}
+
 export interface Stats {
   "Quadro Kills": string
   Deaths: string
