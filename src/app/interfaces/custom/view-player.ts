@@ -7,10 +7,9 @@ export interface PlayerWithStatistic2 {
 }
 
 export interface PlayerWithStatistic {
-  id: string;
   profile: PlayerData;
-  globalStatistic: GlobalStatistic;
-  lastStatistic: MapStatistic2[];
+  globalStatistic: GlobalStatistic2;
+  lastStatistic: MapStatistic2;
 }
 
 export interface PlayerData {
@@ -23,11 +22,11 @@ export interface PlayerData {
   elo: number;
   steamNick: string;
   language: string;
-  friendsIds: string[];
+  // friendsIds: string[];
   faceitUrl: string;
 }
 
-export interface GlobalStatistic {
+export interface GlobalStatistic2 {
   winRatePercent : string;
   longestWinStreak: string;
   wins: string;
@@ -38,8 +37,6 @@ export interface GlobalStatistic {
   currentWinStreak: string;
   kDRatio: string;
   totalHeadshotsPercent: string;
-  maps: CsgoMapWithStatistic[];
-  avgKillsForMap: number;
 }
 
 export interface CsgoMapWithStatistic {

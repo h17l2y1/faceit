@@ -28,14 +28,14 @@ export class MapComparingComponent {
       tap((players: PlayerWithStatistic[]) => {
         players.forEach(player => {
 
-          player.globalStatistic.maps.forEach((csgoMap: CsgoMapWithStatistic) => {
-            const comparedMap = this.comparedMaps.find(item => item.label === csgoMap.label);
-            if (!comparedMap) return;
-
-            const winRate = Number(csgoMap.mapStatistic.winRatePercent);
-            comparedMap.leftWinRate += winRate;
-
-          })
+          // player.globalStatistic.maps.forEach((csgoMap: CsgoMapWithStatistic) => {
+          //   const comparedMap = this.comparedMaps.find(item => item.label === csgoMap.label);
+          //   if (!comparedMap) return;
+          //
+          //   const winRate = Number(csgoMap.mapStatistic.winRatePercent);
+          //   comparedMap.leftWinRate += winRate;
+          //
+          // })
         })
 
         this.comparedMaps.forEach(map => {
@@ -50,14 +50,14 @@ export class MapComparingComponent {
       tap((players: PlayerWithStatistic[]) => {
         players.forEach(player => {
 
-          player.globalStatistic.maps.forEach((csgoMap: CsgoMapWithStatistic) => {
-            const comparedMap = this.comparedMaps.find(item => item.label === csgoMap.label);
-            if (!comparedMap) return;
-
-            const winRate = Number(csgoMap.mapStatistic.winRatePercent);
-            comparedMap.rightWinRate += winRate;
-
-          })
+          // player.globalStatistic.maps.forEach((csgoMap: CsgoMapWithStatistic) => {
+          //   const comparedMap = this.comparedMaps.find(item => item.label === csgoMap.label);
+          //   if (!comparedMap) return;
+          //
+          //   const winRate = Number(csgoMap.mapStatistic.winRatePercent);
+          //   comparedMap.rightWinRate += winRate;
+          //
+          // })
         })
 
         this.comparedMaps.forEach(map => {

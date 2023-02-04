@@ -21,12 +21,9 @@ export class AppComponent implements OnDestroy {
 
   private destroyed$: Subject<void> = new Subject<void>();
 
-  public playerStatistic!: PlayerGlobalStatistic;
 
   public playersLeft$!: Observable<PlayerWithStatistic[]>
   public playersRight$!: Observable<PlayerWithStatistic[]>
-
-  public any$!: Observable<any[]>
 
   public matchIdControl: FormControl = this.formBuilder.control(null);
 
@@ -35,7 +32,7 @@ export class AppComponent implements OnDestroy {
       takeUntil(this.destroyed$),
       tap((faceitLink: string) => {
         const id = faceitLink.replace('https://www.faceit.com/en/csgo/room/', '').replace('/scoreboard', '');
-        this.getMatchData2(id);
+        this.getMatchData(id);
       })
     );
 
@@ -45,9 +42,7 @@ export class AppComponent implements OnDestroy {
     private readonly faceitService: FaceitService) {
     this.matchIdControlChange$.subscribe();
 
-    this.getMatchData2(matchId1);
-
-    // this.getPlayersWithStatistic2();
+    this.getMatchData(matchId1);
   }
 
   ngOnDestroy(): void {
@@ -62,49 +57,26 @@ export class AppComponent implements OnDestroy {
       });
   }
 
-  // public getMatchData(id: string): void {
-  //   this.faceitService.getMatch(id).pipe(
-  //     tap((response: Match) => {
-  //       const firstTeamPlayersId: string[] = response.teams.faction1.roster.map(player => player.player_id);
-  //       const secondTeamPlayersId: string[] = response.teams.faction2.roster.map(player => player.player_id);
-  //       this.playersLeft$ = this.getPlayersWithStatistic(firstTeamPlayersId);
-  //       this.playersRight$ = this.getPlayersWithStatistic(secondTeamPlayersId);
-  //     })
-  //   ).subscribe();
-  // }
-  //
-  // public getPlayersWithStatistic(ids: string[]): Observable<PlayerWithStatistic[]> {
-  //   return forkJoin(ids.map(id => this.faceitService.getProfile(id).pipe(
-  //     switchMap((player: PlayerProfile) => {
-  //       return this.faceitService.getPlayerGlobalStatistic(player.player_id).pipe(
-  //         map((statistic: PlayerGlobalStatistic) => {
-  //           return this.mapperService.mapPlayerData(player, statistic);
-  //         })
-  //       );
-  //     })
-  //   )))
-  // }
-
-
-  public getMatchData2(id: string): void {
+  public getMatchData(id: string): void {
     this.faceitService.getMatch(id).pipe(
       tap((response: Match) => {
         const firstTeamPlayersId: string[] = response.teams.faction1.roster.map(player => player.player_id);
         const secondTeamPlayersId: string[] = response.teams.faction2.roster.map(player => player.player_id);
-        this.any$ = this.getPlayersWithStatistic2(secondTeamPlayersId);
-        // const zzz = this.getPlayersWithStatistic2(secondTeamPlayersId);
+        // this.playersLeft$ = this.getPlayersWithStatistic(firstTeamPlayersId);
+        // this.playersRight$ = this.getPlayersWithStatistic(secondTeamPlayersId);
       })
     ).subscribe();
   }
 
-  private getPlayersWithStatistic2(teamIds: string[]): Observable<any[]> {
-    return forkJoin(teamIds.map(id => this.faceitService.getPlayerHistory(id)
+  private getPlayersWithStatistic(teamIds: string[]): Observable<PlayerWithStatistic[]> {
+    return forkJoin(teamIds.map(playerId => this.faceitService.getPlayerHistory(playerId)
       .pipe(
         switchMap((playerHistory: PlayerHistory) => {
-          const playerProfile: Observable<PlayerProfile> = this.faceitService.getProfile(id);
+          const playerProfile: Observable<PlayerProfile> = this.faceitService.getProfile(playerId);
+          const globalStatistic: Observable<PlayerGlobalStatistic> = this.faceitService.getPlayerGlobalStatistic(playerId);
           const matchStatistics: Observable<Round[]> = this.getMatchStatistics(playerHistory);
 
-          return this.getProfileWithMatchStatistic(playerProfile, matchStatistics);
+          return this.getProfileWithMatchStatistic(playerProfile, globalStatistic, matchStatistics);
         })
       )));
   }
@@ -115,9 +87,9 @@ export class AppComponent implements OnDestroy {
     )));
   }
 
-  private getProfileWithMatchStatistic(playerProfile: Observable<PlayerProfile>, matchStatistics: Observable<Round[]>): Observable<any> {
-    return forkJoin([playerProfile, matchStatistics]).pipe(
-      map(([playerProfile, matchStatistics]) => this.mapperService.mapPlayerData(playerProfile, matchStatistics)
+  private getProfileWithMatchStatistic(playerProfile: Observable<PlayerProfile>, globalStatistic: Observable<PlayerGlobalStatistic>, matchStatistics: Observable<Round[]>): Observable<PlayerWithStatistic> {
+    return forkJoin([playerProfile, globalStatistic, matchStatistics]).pipe(
+      map(([playerProfile, globalStatistic, matchStatistics]) => this.mapperService.mapPlayerData(playerProfile, globalStatistic, matchStatistics)
       ))
   }
 

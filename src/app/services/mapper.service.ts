@@ -1,32 +1,42 @@
 import {Injectable} from '@angular/core';
-import {LastMatch, MapStatistic, MapStatistic2, PlayerStatistic2} from "../interfaces/custom/view-player";
+import {
+  GlobalStatistic2,
+  LastMatch,
+  MapStatistic2, PlayerData,
+  PlayerStatistic2,
+  PlayerWithStatistic
+} from "../interfaces/custom/view-player";
 import {PlayerProfile} from "../interfaces/player-profile";
-import {Segment} from "../interfaces/player-global-statistic";
-import {PlayerStats, Round, RoundStats} from "../interfaces/match-statistic";
+import {PlayerGlobalStatistic} from "../interfaces/player-global-statistic";
+import {PlayerStats, Round} from "../interfaces/match-statistic";
 
 @Injectable()
 export class MapperService {
 
-  public mapPlayerData(player: PlayerProfile, matches: Round[]): any {
-
-    const playerWithStatistic = {
-      profile: {
-        id: player.player_id,
-        nickname: player.nickname,
-        avatar: player.avatar,
-        country: player.country,
-        steam: player.platforms.steam,
-        level: player.games.csgo.skill_level,
-        elo: player.games.csgo.faceit_elo,
-        steamNick: player.games.csgo.game_player_name,
-        language: player.settings.language,
-        // friendsIds: player.friends_ids,
-        faceitUrl: player.faceit_url,
-      },
-      lastStatistic: this.mapMatchesStatistic(player.player_id, matches)
+  public mapPlayerData(player: PlayerProfile, globalStatistic: PlayerGlobalStatistic, matches: Round[]): PlayerWithStatistic {
+    const playerWithStatistic: PlayerWithStatistic = {
+      profile: this.mapProfileData(player),
+      lastStatistic: this.mapMatchesStatistic(player.player_id, matches),
+      globalStatistic: this.mapGlobalStatistic(globalStatistic),
     }
 
     return playerWithStatistic;
+  }
+
+  private mapProfileData(player: PlayerProfile): PlayerData {
+    return {
+      id: player.player_id,
+      nickname: player.nickname,
+      avatar: player.avatar,
+      country: player.country,
+      steam: player.platforms.steam,
+      level: player.games.csgo.skill_level,
+      elo: player.games.csgo.faceit_elo,
+      steamNick: player.games.csgo.game_player_name,
+      language: player.settings.language,
+      // friendsIds: player.friends_ids,
+      faceitUrl: player.faceit_url,
+    }
   }
 
   private mapMatchesStatistic(playerId: string, matches: Round[]): MapStatistic2 {
@@ -111,34 +121,18 @@ export class MapperService {
     return mapStatistic2;
   }
 
-  private mapMapStatistic(segment: Segment): MapStatistic {
+  private mapGlobalStatistic(globalStatistic: PlayerGlobalStatistic): GlobalStatistic2 {
     return {
-      assists: segment.stats.Assists,
-      averageAssists: segment.stats["Average Assists"],
-      averageDeaths: segment.stats["Average Deaths"],
-      averageHeadshotsPercent: segment.stats["Average Headshots %"],
-      averageKDRatio: segment.stats["Average K/D Ratio"],
-      averageKRRatio: segment.stats["Average K/R Ratio"],
-      averageKills: segment.stats["Average Kills"],
-      averageMVPs: segment.stats["Average MVPs"],
-      averagePentaKills: segment.stats["Average Penta Kills"],
-      averageQuadroKills: segment.stats["Average Quadro Kills"],
-      averageTripleKills: segment.stats["Triple Kills"],
-      deaths: segment.stats.Deaths,
-      headshots: segment.stats.Headshots,
-      headshotsPerMatch: segment.stats["Headshots per Match"],
-      kDRatio: segment.stats["K/D Ratio"],
-      kRRatio: segment.stats["K/R Ratio"],
-      kills: segment.stats.Kills,
-      mVPs: segment.stats.MVPs,
-      matches: segment.stats.Matches,
-      pentaKills: segment.stats["Penta Kills"],
-      quadroKills: segment.stats["Quadro Kills"],
-      rounds: segment.stats.Rounds,
-      totalHeadshots: segment.stats["Total Headshots %"],
-      tripleKills: segment.stats["Triple Kills"],
-      winRatePercent: segment.stats["Win Rate %"],
-      wins: segment.stats.Wins
+      winRatePercent : globalStatistic.lifetime["Win Rate %"],
+      longestWinStreak: globalStatistic.lifetime["Longest Win Streak"],
+      wins: globalStatistic.lifetime.Wins,
+      averageKDRatio: globalStatistic.lifetime["Average K/D Ratio"],
+      recentResults: globalStatistic.lifetime["Recent Results"],
+      matches: globalStatistic.lifetime.Matches,
+      averageHeadshotsPercent: globalStatistic.lifetime["Average Headshots %"],
+      currentWinStreak: globalStatistic.lifetime["Current Win Streak"],
+      kDRatio: globalStatistic.lifetime["K/D Ratio"],
+      totalHeadshotsPercent: globalStatistic.lifetime["Total Headshots %"]
     };
   }
 }

@@ -23,7 +23,7 @@
     </div>
     <div class="box" style="grid-row: span 3;">
       <div>Win rate</div>
-      <div>{{player.globalStatistic.winRatePercent}}%</div>
+      <div>{{player.lastStatistic.winRatePercent}}%</div>
     </div>
     <div class="box" style="grid-row: span 3;">
       <div>Longest Win Streak</div>
@@ -31,12 +31,11 @@
     </div>
     <div class="box" style="grid-row: span 3;">
       <div>Avg. Kills/HS</div>
-<!--      <div> {{player.statistic.avgKillsForMap}}/{{player.statistic.averageHeadshotsPercent}}%</div>-->
-      <div> null/{{player.globalStatistic.averageHeadshotsPercent}}%</div>
+      <div> {{player.lastStatistic.kills}}/{{player.lastStatistic.headshotsPercent}}%</div>
     </div>
     <div class="box" style="grid-row: span 3;">
       <div>Avg. K/D K/R</div>
-      <div>{{player.globalStatistic.averageKDRatio}}/null</div>
+      <div>{{player.lastStatistic.kDRatio}}/{{player.lastStatistic.kRRatio}}</div>
     </div>
     <div class="box" style="grid-row: span 3;">
       <div>Current Win Streak</div>
